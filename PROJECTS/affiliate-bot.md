@@ -3,7 +3,7 @@
 ## 基本情報
 
 - **cwd**: `~/affiliate-bot`
-- **GitHub**: `siromaje713/affiliate-bot` (private)
+- **GitHub**: `siromaje713/affiliate-bot` (public)
 - **Threadsアカウント**: `@riko_cosme_lab`
 - **ペルソナ**: りこ（27歳・敏感肌・プチプラ美容オタク、皮膚科勤務の姉32歳）
 - **北極星**: 月50万円自動収益（美容Threads × アフィリエイト）
