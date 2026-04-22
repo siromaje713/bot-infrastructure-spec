@@ -45,6 +45,21 @@ Bot自動化プロジェクト（affiliate-bot / hoshi-musubi / 今後追加分�
 ## 絶対ルール
 
 - **API Key値・アクセストークンは一切書かない**。`.env` のキー名だけ記載して「値は `.env` から」と明記
-- private repo固定（パス情報が含まれるため）
 - `force push` / `rm -rf` はこのrepoでは禁止（履歴保全）
 - INCIDENTSは追記のみ。過去事故を書き換えない（誤診断経緯も学びとして残す）
+
+## Visibility Note
+
+- 2026-04-22: public に変更（Web UI経由）
+- 理由: Claude.ai (web_fetch) から新スレ開始時に読み込むため
+- 記載ルール:
+  - API Key / password / token 値は一切書かない・所在のみ記述
+  - service_id 等の識別子は記載OK（単独では操作不可）
+  - メアド類も業務用のみ記載OK
+- Safety Check 履歴: 2026-04-22 Phase A-2 grep + A-3 目視で機密混入ゼロ確認済み
+
+## 他AI向け（このrepoをcontextとして食わせる場合）
+
+- このrepo丸ごとzipしてGPT/Gemini/Claude新モデル等に投入可能
+- 事故対応精度を上げる目的でのみ使用
+- 事例を増やすほど他bot/他運用者にも応用可能な汎用資産として育てる
