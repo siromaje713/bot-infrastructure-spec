@@ -121,3 +121,22 @@ python3 scripts/_render_keytest.py
 - `main HEADと過去commit混同` / `raw.githubusercontent.com SHA指定`
 - `rotation 未実施` / `Key revoke 忘れ`
 - `secret-leak` `git-history-blob` `public-repo` `key-rotation`
+- `Stop hook CLAUDE.md 自動再生成` / `update_claude_md.py` / `LLM 自動書き換え`
+
+## 追加対応（2026-04-23）
+
+- 根本原因の派生として `scripts/update_claude_md.py` の Stop hook 自動起動を特定
+- 毎セッション終了時に Opus 4.6 が CLAUDE.md を再生成しており、プロンプトに secret 禁止句がないため平文 Key 再混入リスクが常在していた（log 実績: `logs/claude_md_update.log` に `[UpdateCLAUDE] CLAUDE.md を更新しました` が多数記録、commit レベルでは手動運用だが working tree レベルで LLM 書き換えが常時発生）
+- 対応:
+  - `~/affiliate-bot/.claude/settings.json` から Stop hook を削除（このファイルは `.gitignore` 済みのローカル設定、backup: `settings.json.backup.20260422_231233`）
+  - `logs/claude_md_update.log` を `logs/claude_md_update.log.archived_20260422_231234` に退避
+  - `scripts/update_claude_md.py` 冒頭に `DISABLED = True` 早期 return を追加（`--force` 引数ありでのみ動作）
+- 再有効化条件:
+  1. プロンプトに「API Key / token / secret / password / webhook URL を絶対に出力するな」を明記
+  2. 出力前に secret パターン grep（`rnd_|sk-ant-|xoxb-|EAA[A-Za-z0-9]{20,}`）でブロック
+  3. 設計再評価: CLAUDE.md は 60 行 goal-tree の手動管理（memory #5）と矛盾しないか判断
+
+## 関連 commit
+
+- affiliate-bot `scripts/update_claude_md.py` 早期 return 追加: `425c4e2` (2026-04-22)
+- affiliate-bot `.claude/settings.json` Stop hook 削除: **commit なし**（`.gitignore` 登録済みのローカル設定、ファイル差分はローカル backup で保全）
